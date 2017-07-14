@@ -21,23 +21,36 @@ def trotter(X,Y,Z,h,n):
         S = S.dot(eXeY)
     return linalg.norm(eZ - S)/linalg.norm(eZ)
 
-def n_dependence(X,Y,Z,h):
-    filename = "n.dat"
+def trotter2nd(X,Y,Z,h,n):
+    eZ = calc_exp(Z,h)
+    eX = calc_exp(X,h/n*0.5)
+    eY = calc_exp(Y,h/n)
+    S = np.diag(np.ones(d))
+    eXeYeX = eX.dot(eY.dot(eX))
+    for i in range(n):
+        S = S.dot(eXeYeX)
+    return linalg.norm(eZ - S)/linalg.norm(eZ)
+
+
+def n_dependence(X,Y,Z,h,order):
+    filename = "n_%x.dat" % order
+    t = trotter if order == 1 else trotter2nd
     print filename
     f = open(filename,'w')
     for i in range(100):
         n = i+1
-        f.write(str(n) + " " +  str(trotter(X,Y,Z,h,n)))
+        f.write(str(n) + " " +  str(t(X,Y,Z,h,n)))
         f.write("\n")
     f.close()
 
-def h_dependence(X,Y,Z,n):
-    filename = "h%x.dat" %n
+def h_dependence(X,Y,Z,n, order):
+    t = trotter if order == 1 else trotter2nd
+    filename = "h%x_%x.dat" %(n, order)
     print filename
     f = open(filename,'w')
     for i in range(100):
         h = (i+1)/100.0
-        f.write(str(h) + " " +  str(trotter(X,Y,Z,h,n)))
+        f.write(str(h) + " " +  str(t(X,Y,Z,h,n)))
         f.write("\n")
     f.close()
 
@@ -48,7 +61,13 @@ X = x1.dot(x1.T)
 Y = x2.dot(x2.T)
 Z = X + Y
 
-n_dependence(X,Y,Z,1.0)
-h_dependence(X,Y,Z,1)
-h_dependence(X,Y,Z,2)
-h_dependence(X,Y,Z,4)
+n_dependence(X,Y,Z,1.0,1)
+n_dependence(X,Y,Z,1.0,2)
+
+h_dependence(X,Y,Z,1,1)
+h_dependence(X,Y,Z,2,1)
+h_dependence(X,Y,Z,4,1)
+
+h_dependence(X,Y,Z,1,2)
+h_dependence(X,Y,Z,2,2)
+h_dependence(X,Y,Z,4,2)
