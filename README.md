@@ -1,6 +1,8 @@
-[Japanese](README_ja.md)/ English
-
 # Sample Code of Lie–Trotter product formula
+
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+
+[Japanese](README_ja.md)/ English
 
 ## Summary
 
@@ -10,9 +12,9 @@ Consider some operators X, Y, and Z, satisfying Z = X + Y.
 Then the Lie-Trotter product formulae are
 
 * the normal decomposition
-    * Exp(h Z) = (Exp(h/n X) Exp(h/n Y))^n + O(h^2/n)
+  * Exp(h Z) = (Exp(h/n X) Exp(h/n Y))^n + O(h^2/n)
 * the 2nd-Order Symmetric decomposition
-    * Exp(h Z) = (Exp(h/2n X) Exp(h/n Y) Exp(h/2n X))^n + O(h^3/n^2)
+  * Exp(h Z) = (Exp(h/2n X) Exp(h/n Y) Exp(h/2n X))^n + O(h^3/n^2)
 
 where n is a decomposition number and h is a c-number (usually a time-step).
 
@@ -21,8 +23,8 @@ The truncation errors are determined by Frobenius norm.
 
 ## Usage
 
-```
-$ make
+```sh
+make
 ```
 
 ## Results
@@ -42,3 +44,7 @@ h-dependence of the truncation error is O(h^3)
 
 n-dependence of the truncation error is O(1/n^2)
 ![n_2.png](n_2.png)
+
+## Jupyter Notebook
+
+Jupyter notebook version (`lie_trotter_sample.ipynb`) is also available. Thanks [TejasAvinashShetty](https://github.com/TejasAvinashShetty)!
